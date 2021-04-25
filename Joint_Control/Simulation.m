@@ -20,8 +20,8 @@ clear all;
     this.qlist   =qlist;    
     this.qdlist  =qdlist;
     this.endTime =endTime;
-%     this.tau     =tau;
-%     this.e       =e ;  
+    this.tau     =tau;
+    this.e       =e ;  
     PlotFcn(this,'pose');
     save('F:\Robot progress\filedata\Result5.mat','this'); 
     

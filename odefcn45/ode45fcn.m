@@ -30,18 +30,17 @@ function xd=fdy2(t,x,tf,ts,qd,dqd,ddqd)            %% ~ =t is Independent variab
     M_q=(Inertia(q));   
     Cor=Coriolis(q,dq);     
     G_q=(Grav(q,[0,0,-9.81])).';                   %% grav=[0,0,-9.81];
-    disp(['runing at = ', num2str(t/tf*100),'%']);
-    
     q_d   =interp1(ts,qd,  t,'spline');            %% q_d  =[qd1,qd2,...,qd6] is column
     dq_d  =interp1(ts,dqd, t,'spline');            %% dq_d =[dq_d1,...,dq_d6] is column
     ddq_d =interp1(ts,ddqd,t,'spline');            %% ddq_d=[ddq_d1,...,ddq_d6] is column
     
     e=q_d.'-q; de=dq_d.'-dq;
-    k1=300; k2=100; k3=50; epi=50;
+    k1=1000; k2=800; k3=5; epi=100;       % k1=500, k2=500,800 ,k3=5,
     s= de + k1*e; 
     tau=M_q*(ddq_d.' + k1*de + k3*sign(s) + k2*s ) + Cor * dq+ G_q + epi ;   %% M\fric < epi
  %   tau=k1*de+k2*e;
-    
+ 
+    disp(['runing at = ', num2str(t/tf*100),'%']);
     ddq=M_q\( tau -Cor*dq -G_q -fric(0.5,0.1,dq) );
     xd=[x(n+1:2*n); ddq; tau-x(2*n+1:3*n); e-x(3*n+1:4*n)]; 
 end
