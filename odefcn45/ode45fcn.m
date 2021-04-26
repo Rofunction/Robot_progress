@@ -32,7 +32,7 @@ function xd=fdy2(t,x,tf,ts,qd,dqd,ddqd)            %% ~ =t is Independent variab
     dq_d  =interp1(ts,dqd, t,'spline');            %% dq_d =[dq_d1,...,dq_d6] is column
     ddq_d =interp1(ts,ddqd,t,'spline');            %% ddq_d=[ddq_d1,...,ddq_d6] is column
     
-    k1=10; k2=500; k3=20; epi=20;  alpha=1000;     % k1=1500 k2=1500 ,k3=5,
+    k1=10; k2=500; k3=50; epi=50;  alpha=800;     % k1=1500 k2=1500 ,k3=5,
     e1=q_d.'-q; de1=dq_d.'-dq; e2=-de1-alpha*e1;
     s =k1 * e1 + e2;
 %     s= de1 + k1*e1; 
