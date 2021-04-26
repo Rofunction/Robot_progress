@@ -8,10 +8,8 @@ function [t,q,dq,tau,e]=ode45fcn(tf,q0,qd0,tau0,e0)
     tspan=[0 tf]; 
     q0=q0(:); qd0=qd0(:); tau0=tau0(:);e0=e0(:);
     q0=[q0; qd0;tau0;e0]; 
-    
     ts=linspace(0,tf,10000);
     [qd,dqd,ddqd]=DesirTrj_gd(ts);
-    
     opts=odeset('MaxStep',1e-3,'RelTol',1e-4,'AbsTol',1e-5);
 %     opts=odeset('RelTol',1e-4,'AbsTol',1e-5);
     [t,y]=ode45(@(t,x) fdy2(t,x,tf,ts,qd,dqd,ddqd), tspan, q0, opts);
@@ -21,11 +19,11 @@ function [t,q,dq,tau,e]=ode45fcn(tf,q0,qd0,tau0,e0)
     e  =y(:,3*n+1:4*n);
 end
 function xd=fdy2(t,x,tf,ts,qd,dqd,ddqd)            %% ~ =t is Independent variable must be exist
-    n=6;  
-    q=x(1:n);                                      %% q ,dq are column
-    dq=x(n+1:2*n);
+    n  =6;  
+    q  =x(1:n);                                      %% q ,dq are column
+    dq =x(n+1:2*n);
     tau=x(2*n+1:3*n);
-    e1=x(3*n+1:4*n);
+    e1 =x(3*n+1:4*n);
     
     M_q=(Inertia(q));   
     Cor=Coriolis(q,dq);     
