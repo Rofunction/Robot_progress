@@ -23,12 +23,9 @@ clear all;
     this.tau     =tau;
     this.e       =e ;  
     PlotFcn(this,'pose');
-<<<<<<< HEAD
 %     save ('C:\Users\Administrator\Desktop\Robot_progress\Result1.mat','this');
     save('F:\Robot progress\filedata\Result4.mat','this'); 
-=======
-        save ('C:\Users\Administrator\Desktop\Robot_progress\Result1.mat','this');
-%     save('F:\Robot progress\filedata\Result1.mat','this'); 
->>>>>>> 197006f195c875f15250e44dce6169d6dd6acb33
+
+
     
     
