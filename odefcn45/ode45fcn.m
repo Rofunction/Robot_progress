@@ -25,7 +25,7 @@ function xd=fdy2(t,x,tf,ts,qd,dqd,ddqd)            %% ~ =t is Independent variab
     q=x(1:n);                                      %% q ,dq are column
     dq=x(n+1:2*n);
     tau=x(2*n+1:3*n);
-    e=x(3*n+1:4*n);
+    e1=x(3*n+1:4*n);
     
     M_q=(Inertia(q));   
     Cor=Coriolis(q,dq);     
@@ -34,13 +34,14 @@ function xd=fdy2(t,x,tf,ts,qd,dqd,ddqd)            %% ~ =t is Independent variab
     dq_d  =interp1(ts,dqd, t,'spline');            %% dq_d =[dq_d1,...,dq_d6] is column
     ddq_d =interp1(ts,ddqd,t,'spline');            %% ddq_d=[ddq_d1,...,ddq_d6] is column
     
-    e=q_d.'-q; de=dq_d.'-dq;
-    k1=1000; k2=800; k3=5; epi=100;       % k1=500, k2=500,800 ,k3=5,
-    s= de + k1*e; 
-    tau=M_q*(ddq_d.' + k1*de + k3*sign(s) + k2*s ) + Cor * dq+ G_q + epi ;   %% M\fric < epi
+    k1=50; k2=50; k3=10; epi=20;  alpha=10;     % k1=1500 k2=1500 ,k3=5,
+    e1=q_d.'-q; de1=dq_d.'-dq; e2=-de1-alpha*e1;
+    s =k1 * e1 + e2;
+%     s= de1 + k1*e1; 
+    tau=M_q*(ddq_d.' - (k1-alpha)*de1 - k2*s - k3*sign(s)  ) + Cor * dq+ G_q + epi ;   %% M\fric < epi
  %   tau=k1*de+k2*e;
  
     disp(['runing at = ', num2str(t/tf*100),'%']);
     ddq=M_q\( tau -Cor*dq -G_q -fric(0.5,0.1,dq) );
-    xd=[x(n+1:2*n); ddq; tau-x(2*n+1:3*n); e-x(3*n+1:4*n)]; 
+    xd=[x(n+1:2*n); ddq; tau-x(2*n+1:3*n); e1-x(3*n+1:4*n)]; 
 end
