@@ -23,7 +23,7 @@ function xd=fdy2(t,x,tf,ts,qd,dqd,ddqd)            %% ~ =t is Independent variab
     q  =x(1:n);                                      %% q ,dq are column
     dq =x(n+1:2*n);
     tau=x(2*n+1:3*n);
-    e =x(3*n+1:4*n);
+    e  =x(3*n+1:4*n);
     
     M_q=(Inertia(q));   
     Cor=Coriolis(q,dq);     
@@ -32,10 +32,10 @@ function xd=fdy2(t,x,tf,ts,qd,dqd,ddqd)            %% ~ =t is Independent variab
     dq_d  =interp1(ts,dqd, t,'spline');            %% dq_d =[dq_d1,...,dq_d6] is column
     ddq_d =interp1(ts,ddqd,t,'spline');            %% ddq_d=[ddq_d1,...,ddq_d6] is column
     
-    fai1=400; fai2=200; alpha1=0.55; alpha2=1.75; mu=0.05; L1=((alpha2-alpha1)/(alpha2-1))*mu^(alpha1-1);
-    L2=((alpha1-1)/(alpha2-1))*mu^(alpha1-alpha2); gama1=100; gama2=10; epi=30;
+    rho1=50; rho2=30; alpha1=0.6; alpha2=1.15; mu=0.15; L1=((alpha2-alpha1)/(alpha2-1))*mu^(alpha1-1);
+    L2=((alpha1-1)/(alpha2-1))*mu^(alpha1-alpha2); gama1=60; gama2=5; epi=20;
 %     k1=10; k2=500; k3=50; epi=50;  alpha=800;    % k1=1500 k2=1500 ,k3=5,
-    e=q_d.'-q; de=dq_d.'-dq; s_bat=de + fai1*e + fai2*(abs(e).^alpha1).*sign(e);                     % e2=-de-alpha*e;
+    e=q_d.'-q; de=dq_d.'-dq; s_bat=de + rho1*e + rho2*(abs(e).^alpha1).*sign(e);               % e2=-de-alpha*e;
    
     % theta
     for i=1:n
@@ -53,12 +53,12 @@ function xd=fdy2(t,x,tf,ts,qd,dqd,ddqd)            %% ~ =t is Independent variab
         d_theta(i,:)=L1*de(i) + L2*alpha2*( abs(e(i))^(alpha2-1) ) *de(i);
     end
     end
-    s= de + fai1 * e + fai2 * theta;
+    s= de + rho1 * e + rho2 * theta;
 %     s =k1 * e + e2; £¨backstepping£©
 %     s= de1 + k1*e1; 
 %     tau=M_q*(ddq_d.' - (k1-alpha)*de - k2*s - k3*sign(s)  ) + Cor * dq+ G_q + epi ;   %% M\fric < epi
 %     tau=k1*de+k2*e;
-    tau=M_q*(ddq_d.' - fai1*de -fai2*d_theta - gama1*s -gama2*sign(s)) + Cor * dq+ G_q + epi ;
+    tau=M_q*(ddq_d.' + rho1*de + rho2*d_theta + gama1*s + gama2*sign(s)) + Cor * dq+ G_q + epi ;
     ddq=M_q\( tau - Cor*dq - G_q - fric(0.5,0.1,dq) - noise(t,1,0.1,10) );
     xd=[x(n+1:2*n); ddq; tau-x(2*n+1:3*n); e-x(3*n+1:4*n)];
     
