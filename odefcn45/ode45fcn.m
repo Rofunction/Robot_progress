@@ -3,11 +3,11 @@
  q/dq are vectors with (1xn)
  由于输出结果y=[q,dq]是行向量，因此，状态变量中 x 是列向量。
 %} 
-function [t,q,dq,tau,e]=ode45fcn(tf,q0,qd0,tau0,e0)
+function [t,q,dq,tau,e]=ode45fcn(tf,q0,qd0,tau0,e0,deta0)
     n=length(q0);       %%  initialize q0\dq0 is column with (1x6)
     tspan=[0 tf]; 
     q0=q0(:); qd0=qd0(:); tau0=tau0(:);e0=e0(:);
-    q0=[q0; qd0;tau0;e0]; 
+    q0=[q0; qd0;tau0;e0;deta0]; 
     ts=linspace(0,tf,10000);
     [qd,dqd,ddqd]=DesirTrj_gd(ts);
     opts=odeset('MaxStep',1e-3,'RelTol',1e-4,'AbsTol',1e-5);
@@ -23,6 +23,7 @@ function xd=fdy2(t,x,tf,ts,qd,dqd,ddqd)            %% ~ =t is Independent variab
     dq =x(n+1:2*n);
     tau=x(2*n+1:3*n);
     e  =x(3*n+1:4*n);
+    deta=x(4*n+1);
     
     M_q=(Inertia(q));   
     Cor=Coriolis(q,dq);     
@@ -32,7 +33,7 @@ function xd=fdy2(t,x,tf,ts,qd,dqd,ddqd)            %% ~ =t is Independent variab
     ddq_d =interp1(ts,ddqd,t,'spline');            %% ddq_d=[ddq_d1,...,ddq_d6] is column
     
     rho1=2000; rho2=1000; alpha1=0.6; alpha2=1.15; mu=0.15; L1=((alpha2-alpha1)/(alpha2-1))*mu^(alpha1-1);
-    L2=((alpha1-1)/(alpha2-1))*mu^(alpha1-alpha2); gama1=400; gama2=5; epi=20;
+    L2=((alpha1-1)/(alpha2-1))*mu^(alpha1-alpha2); gama1=400; gama2=5;  rata=0.15;
     e=q_d.'-q; de=dq_d.'-dq; s_bat=de + rho1*e + rho2*(abs(e).^alpha1).*sign(e);           
     % theta
     for i=1:n
@@ -51,9 +52,14 @@ function xd=fdy2(t,x,tf,ts,qd,dqd,ddqd)            %% ~ =t is Independent variab
     end
     end
     s= de + rho1 * e + rho2 * theta;
-    
-    tau=M_q*(ddq_d.' + rho1*de   + rho2*d_theta + gama1*s + gama2*sign(s)) + Cor * dq + G_q + epi ;
+    % adaptiving law
+    if norm(s)>mu
+    d_deta=rata*norm(s,1);
+    else
+    d_deta=0;
+    end
+    tau=M_q*(ddq_d.' + rho1*de   + rho2*d_theta + gama1*s + (deta + gama2)*sign(s) ) + Cor * dq + G_q  ;
     ddq=M_q\( tau - Cor*dq - G_q - fric(0.5,0.1,dq) - noise(t,1,0.1,10) );
-    xd=[x(n+1:2*n); ddq; tau-x(2*n+1:3*n); e-x(3*n+1:4*n)]; 
+    xd=[x(n+1:2*n); ddq; tau-x(2*n+1:3*n); e-x(3*n+1:4*n); d_deta]; 
     disp(['runing at = ', num2str(t/tf*100),'%']);
 end
