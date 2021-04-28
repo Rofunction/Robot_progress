@@ -32,7 +32,7 @@ function xd=fdy2(t,x,tf,ts,qd,dqd,ddqd)            %% ~ =t is Independent variab
     ddq_d =interp1(ts,ddqd,t,'spline');            %% ddq_d=[ddq_d1,...,ddq_d6] is column
     
     
-    rmta1=diag(20*ones(1,6)); rmta2=diag(400*ones(1,6));  epi=50;     % k1=1500 k2=1500 ,k3=5,
+    rmta1=diag(100*ones(1,6)); rmta2=diag(1000*ones(1,6));  epi=50;     % k1=1500 k2=1500 ,k3=5,
     e=q_d.'-q; de=dq_d.'-dq;  
     
     tau=M_q*(ddq_d.' + rmta1*de +  rmta2*e) + Cor * dq+ G_q + epi ;   %% M\fric < epi

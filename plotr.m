@@ -1,4 +1,4 @@
-t=linspace(0,5,10000);
+t=linspace(0,10,10000);
 [qd,dqd,ddqd]=DesirTrj_gd(t);
 
 % figure (1)

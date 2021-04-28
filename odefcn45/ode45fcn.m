@@ -31,8 +31,8 @@ function xd=fdy2(t,x,tf,ts,qd,dqd,ddqd)            %% ~ =t is Independent variab
     dq_d  =interp1(ts,dqd, t,'spline');            %% dq_d =[dq_d1,...,dq_d6] is column
     ddq_d =interp1(ts,ddqd,t,'spline');            %% ddq_d=[ddq_d1,...,ddq_d6] is column
     
-    rho1=40; rho2=30; alpha1=0.6; alpha2=1.15; mu=0.15; L1=((alpha2-alpha1)/(alpha2-1))*mu^(alpha1-1);
-    L2=((alpha1-1)/(alpha2-1))*mu^(alpha1-alpha2); gama1=400; gama2=50; epi=20;
+    rho1=1500; rho2=1000; alpha1=0.6; alpha2=1.15; mu=0.15; L1=((alpha2-alpha1)/(alpha2-1))*mu^(alpha1-1);
+    L2=((alpha1-1)/(alpha2-1))*mu^(alpha1-alpha2); gama1=400; gama2=5; epi=300;
 %     k1=10; k2=500; k3=50; epi=50;  alpha=800;    % k1=1500 k2=1500 ,k3=5,
     e=q_d.'-q; de=dq_d.'-dq; s_bat=de + rho1*e + rho2*(abs(e).^alpha1).*sign(e);               % e2=-de-alpha*e;
    
