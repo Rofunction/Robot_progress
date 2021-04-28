@@ -52,7 +52,6 @@ plot(this.t,this.qlist(:,6),'b',t.',qd(:,6),'r');
 legend('actual','desired');
 
 
-
 % figure (1)
 % plot(this.t,this.qdlist(:,1),'b',t.',dqd(:,1),'r');
 % figure (2)
