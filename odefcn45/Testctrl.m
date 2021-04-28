@@ -3,7 +3,7 @@
  q/dq are vectors with (1xn)
  由于输出结果y=[q,dq]是行向量，因此，状态变量中 x 是列向量。
 %} 
-function [t,q,dq,tau,e]=ode45fcn(tf,q0,qd0,tau0,e0)
+function [t,q,dq,tau,e]=Testctrl(tf,q0,qd0,tau0,e0)
     n=length(q0);       %%  initialize q0\dq0 is column with (1x6)
     tspan=[0 tf]; 
     q0=q0(:); qd0=qd0(:); tau0=tau0(:);e0=e0(:);
