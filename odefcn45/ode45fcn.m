@@ -55,7 +55,7 @@ function xd=fdy2(t,x,tf,ts,qd,dqd,ddqd)            %% ~ =t is Independent variab
     s= de + rho1 * e + rho2 * theta;
     % adaptiving law
     if norm(s)>mu
-    d_deta=1/rata*norm(s,2);
+    d_deta=rata*norm(s,2);
     else
     d_deta=0;
     end
