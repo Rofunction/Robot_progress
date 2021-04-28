@@ -25,7 +25,5 @@ clear all;
     PlotFcn(this,'pose');
 %     save ('C:\Users\Administrator\Desktop\Robot_progress\Result1.mat','this');
     save('F:\Robot progress\filedata\Result4.mat','this'); 
-
-
     
     
