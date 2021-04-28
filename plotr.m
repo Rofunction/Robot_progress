@@ -1,4 +1,4 @@
-t=linspace(0,5,10000);
+t=linspace(0,10,10000);
 [qd,dqd,ddqd]=DesirTrj_gd(t);
 
 % figure (1)
@@ -50,7 +50,6 @@ legend('actual','desired');
 figure (6)
 plot(this.t,this.qlist(:,6),'b',t.',qd(:,6),'r');
 legend('actual','desired');
-
 
 
 % figure (1)
