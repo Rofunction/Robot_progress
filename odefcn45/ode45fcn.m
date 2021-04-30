@@ -33,14 +33,11 @@ function xd=fdy2(t,x,tf,ts,qd,dqd,ddqd)            %% ~ =t is Independent variab
     ddq_d =interp1(ts,ddqd,t,'spline');            %% ddq_d=[ddq_d1,...,ddq_d6] is column
    
     rho1=200; rho2=100; alpha1=0.6; alpha2=1.15; mu=0.15; L1=((alpha2-alpha1)/(alpha2-1))*mu^(alpha1-1);
-    L2=((alpha1-1)/(alpha2-1))*mu^(alpha1-alpha2); gama1=200; gama2=5;  rata=0.05;
+    L2=((alpha1-1)/(alpha2-1))*mu^(alpha1-alpha2); gama1=200; gama2=5;  rata=0.05; fai=0.05;
     e=q_d.'-q; de=dq_d.'-dq; s_bat=de + rho1*e + rho2*(abs(e).^alpha1).*sign(e);           
     % theta/d_theta/Sat(s)
-    fa=0.05;
-
     for i=1:n
-        Sat_e(i)=(e(i)/abs(e(i)))*(abs(e(i))>=fa)+(e(i)/fa)*(abs(e(i))<fa);
-        Sat_s(i)=(s(i)/abs(s(i)))*(abs(s(i))>=fa)+(s(i)/fa)*(abs(s(i))<fa);
+        Sat_e(i)=(e(i)/abs(e(i)))*(abs(e(i))>=fai)+(e(i)/fai)*(abs(e(i))<fai);
     if ( s_bat(i)==0 ) || ( (s_bat(i)~=0)&&(abs(e(i))>=mu) )
         theta(i,:)=(abs(e(i))^alpha1)*Sat_e(i); 
         d_theta(i,:)=alpha1*(abs(e(i))^(alpha1-1))*de(i);
@@ -50,6 +47,9 @@ function xd=fdy2(t,x,tf,ts,qd,dqd,ddqd)            %% ~ =t is Independent variab
     end
     end
     s= de + rho1 * e + rho2 * theta;
+    for i=1:n
+        Sat_s(i)=(s(i)/abs(s(i)))*(abs(s(i))>=fai)+(s(i)/fai)*(abs(s(i))<fai);
+    end
     % adaptiving law
     if norm(s,2)>mu
     d_deta=rata*norm(s,2);
