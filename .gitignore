@@ -3,6 +3,7 @@
 *.asv
 /figure/
 /test_C*/
+/filedata/Result12.mat
 /Gau*.m
 /testRo*.m
 /Unti*.m
