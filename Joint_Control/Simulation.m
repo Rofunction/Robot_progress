@@ -24,9 +24,9 @@ clear all;
     this.endTime =endTime;
     this.tau     =tau;
     this.e       =e ;  
-%     PlotFcn(this,'pose');
-    save ('C:\Users\Administrator\Desktop\Robot\filedata\Result1.mat','this');
+    PlotFcn(this,'pose');
+%     save ('C:\Users\Administrator\Desktop\Robot\filedata\Result1.mat','this');
 
-%     save('F:\Robot progress\filedata\Result.mat','this'); 
+    save('F:\Robot progress\filedata\Result.mat','this'); 
     
     
