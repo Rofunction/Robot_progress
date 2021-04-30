@@ -37,18 +37,18 @@ function xd=fdy2(t,x,tf,ts,qd,dqd,ddqd)            %% ~ =t is Independent variab
     e=q_d.'-q; de=dq_d.'-dq; s_bat=de + rho1*e + rho2*(abs(e).^alpha1).*sign(e);           
     % theta/d_theta/Sat(s)
     for i=1:n
-        Sat_e(i)=(e(i)/abs(e(i)))*(abs(e(i))>=fai)+(e(i)/fai)*(abs(e(i))<fai);
+        Sat_e(i,:)=(e(i)/abs(e(i)))*(abs(e(i))>=fai)+(e(i)/fai)*(abs(e(i))<fai);
     if ( s_bat(i)==0 ) || ( (s_bat(i)~=0)&&(abs(e(i))>=mu) )
-        theta(i,:)=(abs(e(i))^alpha1)*Sat_e(i); 
+        theta(i,:)=(abs(e(i))^alpha1)*Sat_e(i,:); 
         d_theta(i,:)=alpha1*(abs(e(i))^(alpha1-1))*de(i);
     elseif ( (s_bat(i)~=0) && (abs(e(i))<mu) )
-        theta(i,:)=L1*e(i) + L2 * ( abs(e(i)) ^alpha2) *Sat_e(i);
+        theta(i,:)=L1*e(i) + L2 * ( abs(e(i)) ^alpha2) *Sat_e(i,:);
         d_theta(i,:)=L1*de(i) + L2*alpha2*( abs(e(i))^(alpha2-1) ) *de(i);
     end
     end
     s= de + rho1 * e + rho2 * theta;
     for i=1:n
-        Sat_s(i)=(s(i)/abs(s(i)))*(abs(s(i))>=fai)+(s(i)/fai)*(abs(s(i))<fai);
+        Sat_s(i,:)=(s(i)/abs(s(i)))*(abs(s(i))>=fai)+(s(i)/fai)*(abs(s(i))<fai);
     end
     % adaptiving law
     if norm(s,2)>mu
