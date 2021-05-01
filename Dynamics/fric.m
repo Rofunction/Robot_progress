@@ -4,6 +4,6 @@
 %}
 function friction=fric(Bm,fc,dq)     %% Simple friction model
            dq=dq(:);     
-           friction=Bm*dq+fc;
+           friction=Bm*dq+fc.*sign(dq);
            friction(6)=0;
 end
