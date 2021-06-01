@@ -27,7 +27,7 @@ function [c,ceq]=traj_cnt(opt_vars,traj_pars,base_QR)
 % precisely for searching feasibly solutions with condition number
 % less than 100 that guarantees good estimate
 % --------------------------------------------------------------------------------
-%      numcondition=traj_cond(traj_pars,opt_vars,base_QR);
+     numcondition=traj_cond(opt_vars,traj_pars,base_QR);
      
 % Compute trajectory (Fouruer series + fifth order polynomail)     
      [q,dq,ddq]=Fourier_series_trj(t,wf,A,B,q_init,N,C);
@@ -39,7 +39,7 @@ function [c,ceq]=traj_cnt(opt_vars,traj_pars,base_QR)
      c(19:24) = max(ddq,[],2) - traj_pars.ddq_max;
      
 % more precisely for searching feasibly solutions
-%      c(25)= numcondition - 100;
+     c(25)= numcondition - 100;
      
 % equality constraint
      ceq=[];
