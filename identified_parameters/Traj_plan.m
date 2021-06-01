@@ -101,7 +101,7 @@ A=[]; b=[];Aeq=[];beq=[];lb = []; ub = [];
     elseif strcmp(optalgorithm,'ga')
     filename = strcat(pathToFolder,'ga_',st,'.mat'); 
     end
-    save(filename,'A','B','C','traj_pars');
+    save(filename,'q','dq','ddq','A','B','C','traj_pars');
 toc
 
 
