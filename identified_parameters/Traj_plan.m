@@ -7,7 +7,7 @@
     end
 tic
     load('base_QR.mat');
-% Choose optimization algorithm: 'patternsearch', 'GA'
+% Choose optimization algorithm: 'patternsearch', 'ga'
     optalgorithm = 'patternsearch';
 
 % Trajectory parameters 
@@ -97,7 +97,7 @@ A=[]; b=[];Aeq=[];beq=[];lb = []; ub = [];
     pathToFolder = 'optmt_parameters';
     st = strcat('N',num2str(traj_pars.N),'T',num2str(traj_pars.T));
     if strcmp (optalgorithm,'patternsearch')
-    filename = strcat(pathToFolder,'patternSearch_',st,'QR.mat');
+    filename = strcat('patternSearch_',st,'QR.mat');
     elseif strcmp(optalgorithm,'ga')
     filename = strcat(pathToFolder,'ga_',st,'.mat'); 
     end
